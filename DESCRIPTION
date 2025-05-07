@@ -1,10 +1,10 @@
 Package: dryadAPI
-Title: What the Package Does (One Line, Title Case)
+Title: Package to interact with the dryad data repository 
 Version: 0.0.0.9000
 Authors@R: 
-    person("First", "Last", , "first.last@example.com", role = c("aut", "cre"),
+    person("Thorben", "Kurzbach", , "tkurzbac@uthsc.edu", role = c("aut", "cre"),
            comment = c(ORCID = "YOUR-ORCID-ID"))
-Description: What the package does (one paragraph).
+Description: Convenient functions that help to interact with the data repository dryad. It allows to load datasets directly into the environment, retrieve imformation about datasets and download such. 
 License: `use_mit_license()`, `use_gpl3_license()` or friends to pick a
     license
 Encoding: UTF-8
