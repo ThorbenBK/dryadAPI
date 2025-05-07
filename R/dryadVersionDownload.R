@@ -1,19 +1,18 @@
-#' Download a file from dryad API into R
+#' Download all files of a version from dryad API into R
 #'
-#' dryadFileDownload() allows to access a specific file from dryad based on the doi of the dataset, choosing the file from the dataset.
+#' dryadVersionDownload() allows to access all files of a version from dryad based on the doi of the dataset.
 #' @param doi a character vector with one element in the form of "https://...".
 #' @param path a character vector with one element in the form of "....". Default: "~/Downloads"
-#' @param name a character vector with one element in the form of ".....". Default: "data"
 #' @return Downloaded file.
 #' @seealso [dryad_version_overview()]
 #' @seealso [dryadFileReadID()]
 #' @seealso [dryadFileRead()]
 #' @seealso [dryadFileDownloadID()]
 #' @examples
-#' dryadFileDownload(https://doi.org/10.5061/dryad.z08kprrk1)
+#' dryadVersionDownload(https://doi.org/10.5061/dryad.z08kprrk1)
 #' @export
 #'
-dryadFileDownload <- function(doi, path="~/Downloads", name="data"){
+dryadVersionDownload <- function(doi, path="~/Downloads"){
   encoded_doi <- str_replace_all(doi, c("https://doi.org/" = "doi%253A", "/" = "%2F"))
   response <- GET(paste("https://datadryad.org/api/v2/datasets/",encoded_doi,"/versions?page=1&per_page=100", sep=""))
   text <- content(response, as = "text", encoding = "UTF-8")
@@ -33,15 +32,8 @@ dryadFileDownload <- function(doi, path="~/Downloads", name="data"){
   file_names = data2[["_embedded"]][["stash:files"]][["path"]]
   file_ids = sub(".*/", "",data2[["_embedded"]][["stash:files"]][["_links.self.href"]])
   file_ext = sub(".*/", "",data2[["_embedded"]][["stash:files"]][["mimeType"]])
-  cat("Available files in dataset:\n")
-  choice <- menu(file_names, title = "Choose a file to download")
-  if (choice == 0) {
-    cat("No file selected. Exiting.\n")
-    return()
-  }
-  chosen_id2 <- file_ids[choice]
-  chosen_file2 <- file_names[choice]
-  chosen_ext2 <- file_ext[choice]
-  download_url2 <- paste0("https://datadryad.org/api/v2/files/",chosen_id2, "/download")
-  download.file(url=download_url2, destfile = paste0(path, "/", name, ".", chosen_ext2), mode = "wb" )
-}
+ for(i in seq_along(file_ids)){
+   download_url2 <- paste0("https://datadryad.org/api/v2/files/",i, "/download")
+   download.file(fileext=paste0(".", file_ext[i]), url=download_url2, destfile = paste0(path,"/",file_names[i]))
+ }}
+

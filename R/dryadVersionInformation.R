@@ -8,12 +8,12 @@
 #' @return A nested dataframe.
 #' @seealso [dryad_version_count()]
 #' @examples
-#' dryad_version_overview(https://doi.org/10.5061/dryad.z08kprrk1)
-#' #Use ... to pass additional argumnents to dryad_version_overview().
+#' dryadVersionInformation(https://doi.org/10.5061/dryad.z08kprrk1)
+#' #Use ... to pass additional arguments to dryad_version_overview().
 #' @export
-dryad_version_overview <- function(doi,...){
+dryadVersionInformation <- function(doi,...){
   encoded_doi <- str_replace_all(doi, c("https://doi.org/" = "doi%253A", "/" = "%2F"))
-  response <- GET(paste("https://datadryad.org/api/v2/datasets/",encoded_doi,"/versions", sep=""))
+  response <- GET(paste("https://datadryad.org/api/v2/datasets/",encoded_doi,"/versions?page=1&per_page=100", sep=""))
   text <- content(response, as = "text", encoding = "UTF-8")
   data <- fromJSON(text, flatten=TRUE)
   version_information <-data[["_embedded"]][["stash:versions"]]
@@ -30,3 +30,6 @@ dryad_version_overview <- function(doi,...){
     return(select(version_information, all_of(valid_cols)))
   }
 }
+
+
+
