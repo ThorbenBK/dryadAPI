@@ -12,7 +12,7 @@
 #' #' @export
 #'
 dryadFileRead <- function(doi){
-  encoded_doi <- str_replace_all(doi, c("https://doi.org/" = "doi%253A", "/" = "%2F"))
+  encoded_doi <- stringr::str_replace_all(doi, c("https://doi.org/" = "doi%253A", "/" = "%2F"))
   response <- GET(paste("https://datadryad.org/api/v2/datasets/",encoded_doi,"/versions?page=1&per_page=100", sep=""))
   text <- content(response, as = "text", encoding = "UTF-8")
   data <- fromJSON(text, flatten=TRUE)
