@@ -10,7 +10,8 @@
 #' @seealso [dryadFileDownloadID()]
 #' @examples
 #' dryadVersionDownload(https://doi.org/10.5061/dryad.z08kprrk1)
-#' @export
+#' @importFrom stringr str_replace_all
+#' #' @export
 #'
 dryadVersionDownload <- function(doi, path="~/Downloads"){
   encoded_doi <- str_replace_all(doi, c("https://doi.org/" = "doi%253A", "/" = "%2F"))
