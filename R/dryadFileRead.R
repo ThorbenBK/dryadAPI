@@ -1,13 +1,35 @@
-#' Read a file from dryad API into R
+#' @title Read a File from a Specific Dryad Dataset Version
 #'
-#' dryadFileRead() allows to access a specific file from a specific version from a data set of dryad based on the doi for the datase.
-#' @param doi a character vector with one element in the form of "https://...".
-#' @note the function is currently limited to ".csv" and ".xlsx" files. For every other file, there is an option do download it.
-#' @return Reads in the file or downloads it, if read-in is impossible.
-#' @seealso [dryad_version_overview()]
-#' @seealso [dryadFileReadID()]
+#' @description
+#' `dryadFileRead()` allows interactive access to files from different versions of a dataset hosted on Dryad, using the dataset's DOI. 
+#' The user can select a version and a file from the list of available options.  Supported file types (currently `.csv` and `.xlsx`) are downloaded and read into R automatically. 
+#' Unsupported formats can be manually downloaded via prompt.
+#'
+#' @param doi A character string specifying the dataset DOI, in the form of "https://doi.org/..."
+#' 
+#' @return A data frame if the selected file is a `.csv` or `.xlsx`. Otherwise, the file is downloaded to the user's `~/Downloads` folder. Returns `NULL` if no selection is made.
+#' 
+#' @details 
+#' This function first queries the Dryad API to obtain all available versions of a dataset associated with the given DOI. 
+#' The user is then prompted to select a version via an interactive menu. After selecting a version, all associated files are listed, and the user selects one for import.
+#' If the file format is supported (`.csv` or `.xlsx`), the file is automatically downloaded to a temporary directory and read into R.
+#' If the format is not supported, the user is prompted to download the file to their `~/Downloads` folder.
+#' The function exits gracefully if the user cancels any step.
+#' 
+#' @note Currently, only files with extensions `.csv` and `.xlsx` are read into R. Other file types can be downloaded manually through the provided interactive prompt.
+#' 
+#' @seealso [dryad_version_overview()], [dryadFileReadID()], [dryadFileDownload()]
+#' 
 #' @examples
-#' dryadFileRead(https://doi.org/10.5061/dryad.z08kprrk1)
+#' \dontrun{
+#' dryadFileRead("https://doi.org/10.5061/dryad.z08kprrk1")
+#' }
+#' 
+#' @importFrom httr GET content
+#' @importFrom jsonlite fromJSON
+#' @importFrom readr read_csv
+#' @importFrom openxlsx read.xlsx
+#' @importFrom stringr str_replace_all
 #' @export
 #'
 dryadFileRead <- function(doi){

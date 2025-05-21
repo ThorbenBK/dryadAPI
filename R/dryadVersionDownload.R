@@ -1,17 +1,28 @@
-#' Download all files of a version from dryad API into R
+#' @title Download All Files from a Dryad Dataset Version
 #'
-#' dryadVersionDownload() allows to access all files of a version from dryad based on the doi of the dataset.
-#' @param doi a character vector with one element in the form of "https://...".
-#' @param path a character vector with one element in the form of "....". Default: "~/Downloads"
-#' @return Downloaded file.
-#' @seealso [dryad_version_overview()]
-#' @seealso [dryadFileReadID()]
-#' @seealso [dryadFileRead()]
-#' @seealso [dryadFileDownloadID()]
+#' @description
+#' `dryadVersionDownload()` downloads all files from a specific version of a Dryad dataset, given its DOI.
+#' The user selects the desired version if multiple versions are available. All files are saved to the specified directory.
+#'
+#' @param doi A character string specifying the dataset DOI, in the form of "https://doi.org/..."
+#' @param path A character string specifying the location of the file. Default: "~/Downloads"
+#'
+#' @return Invisibly downloads one or more files to the specified folder. Returns `NULL` if no version is selected.
+#'
+#' @details
+#' This function interacts with the Dryad REST API to retrieve dataset version information and download all associated files for the selected version.
+#'
+#' @seealso [dryad_version_overview()], [dryadFileDownloadID()], [dryadFileDownload()]
+#'
 #' @examples
-#' dryadVersionDownload(https://doi.org/10.5061/dryad.z08kprrk1)
+#' \dontrun{
+#' dryadVersionDownload("https://doi.org/10.5061/dryad.z08kprrk1")
+#' }
+#' 
+#' @importFrom httr GET content
+#' @importFrom jsonlite fromJSON
+#' @importFrom stringr str_replace_all
 #' @export
-#'
 dryadVersionDownload <- function(doi, path="~/Downloads"){
   encoded_doi <- str_replace_all(doi, c("https://doi.org/" = "doi%253A", "/" = "%2F"))
   response <- GET(paste("https://datadryad.org/api/v2/datasets/",encoded_doi,"/versions?page=1&per_page=100", sep=""))

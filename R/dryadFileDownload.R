@@ -1,18 +1,33 @@
-#' Download a file from dryad API into R
+#' @title Interactively Download a File from a Specific Dryad Dataset Version
 #'
-#' dryadFileDownload() allows to access a specific file from dryad based on the doi of the dataset, choosing the file from the dataset.
-#' @param doi a character vector with one element in the form of "https://...".
-#' @param path a character vector with one element in the form of "....". Default: "~/Downloads"
-#' @param name a character vector with one element in the form of ".....". Default: "data"
-#' @return Downloaded file.
-#' @seealso [dryad_version_overview()]
-#' @seealso [dryadFileReadID()]
-#' @seealso [dryadFileRead()]
-#' @seealso [dryadFileDownloadID()]
+#' @description
+#' `dryadFileDownload()` allows interactive access to files from different versions of a dataset hosted on Dryad, using the dataset's DOI. 
+#' The user can select a version and a file from the list of available options. The file will be downloaded into a prior determine folder under a prior determined name. 
+#'
+#' @param doi A character string specifying the dataset DOI, in the form of "https://doi.org/..."
+#' @param path A character string specifying the location of the file. Default: "~/Downloads"
+#' @param name A character string specifying the name of the file. Default: "data"
+#' 
+#' @return Invisibly downloadeds a file, or `NULL` if no file was selected.
+#'
+#' @details 
+#' This function first queries the Dryad API to obtain all available versions of a dataset associated with the given DOI. 
+#' The user is then prompted to select a version via an interactive menu. After selecting a version, all associated files are listed, and the user selects one for download.  
+#' The user is prompted to download the file to their `~/Downloads` folder if not specified otherwise.   
+#' The function exits if the user cancels any step.
+#'
+#' @seealso [dryad_version_overview()], [dryadFileDownloadID()], [dryadFileRead()]
+#'
 #' @examples
-#' dryadFileDownload(https://doi.org/10.5061/dryad.z08kprrk1)
-#' @export
+#' \dontrun{
+#' dryadFileDownload("https://doi.org/10.5061/dryad.z08kprrk1")
+#' }
 #'
+#' @importFrom httr GET content
+#' @importFrom jsonlite fromJSON
+#' @importFrom stringr str_replace_all
+#' @export
+
 dryadFileDownload <- function(doi, path="~/Downloads", name="data"){
   encoded_doi <- str_replace_all(doi, c("https://doi.org/" = "doi%253A", "/" = "%2F"))
   response <- GET(paste("https://datadryad.org/api/v2/datasets/",encoded_doi,"/versions?page=1&per_page=100", sep=""))

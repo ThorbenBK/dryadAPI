@@ -1,15 +1,78 @@
-#' Get information about different Versions of a dataset.
+#' @title Get Information About Different Versions of a Dataset from Drya
+#' 
+#' @description
+#' `dryadVersionInformation()` retrieves metadata for all available versions of a dataset hosted on Dryad,
+#' identified by its DOI. The function can return either the full version metadata or selected fields.
 #'
-#' dryad_version_overview() allows to view all information about a dataset, that is saved on dryad. The function allows to create a nested data.frame.
-#' When selecting certain information beforehand, the download will be limited to those information.
-#' @param doi a character vector with one element in the form of "https://...".
-#' @param ... Other options to specify which information should be retrieved. A character vector.
-#' @param ... : title, authors(firstName, lastName, email, affiliation, affiliationROR, orcid, order, abstract),funders(organization, identifierType,identifier, awardNumber, awardDescription, order), keywords, fieldOfScience, methods, versionNumber, versionStatus, curationStatus, versionChanges, publicationDate, lastModificationDate, visibility, sharingLink, xxxxx_links.curies(name, href, templated), _links.self.href, _links.stash:dataset.href, _links.stash:files.href, _links.stash:download.href
-#' @return A nested dataframe.
-#' @seealso [dryad_version_count()]
+#' @param doi A character string specifying the dataset DOI, in the form of "https://doi.org/..."
+#' @param ... Optional character strings specifying which fields to extract from the version metadata.
+#' 
+#' @details 
+#' The Dryad API returns a nested structure with metadata for all versions of a dataset. 
+#' This function flattens and extracts that structure into a data frame.
+#' 
+#' If no fields are specified via `...`, the full set of available metadata will be returned.
+#' If one or more fields are specified, only those fields will be returned (if valid).
+#' 
+#' #' The possible top-level fields include:
+#' - `title`
+#' - `keywords`
+#' - `fieldOfScience`
+#' - `methods`
+#' - `versionNumber`
+#' - `versionStatus`
+#' - `curationStatus`
+#' - `versionChanges`
+#' - `publicationDate`
+#' - `lastModificationDate`
+#' - `visibility`
+#' - `sharingLink`
+#' - `_links.self.href`
+#' - `_links.stash:dataset.href`
+#' - `_links.stash:files.href`
+#' - `_links.stash:download.href`
+#' - `_links.curies` (list column with fields: `name`, `href`, `templated`)
+#' 
+#' Nested list-columns include:
+#' 
+#' - `authors` (each row is a list of author entries with the following fields):
+#'   - `firstName`
+#'   - `lastName`
+#'   - `email`
+#'   - `affiliation`
+#'   - `affiliationROR`
+#'   - `orcid`
+#'   - `order`
+#'   - `abstract`
+#' 
+#' - `funders` (each row is a list of funder entries with the following fields):
+#'   - `organization`
+#'   - `identifierType`
+#'   - `identifier`
+#'   - `awardNumber`
+#'   - `awardDescription`
+#'   - `order`
+#'
+#' To access nested fields (e.g., `authors$firstName`), further unnesting may be required using tools like `tidyr::unnest()`.
+#'
+#' @return A `data.frame` (tibble-like) containing the version metadata, either fully or with selected columns.
+#' 
+#' @seealso [dryad_version_count()], [dryad_version_overview()]
+#' 
 #' @examples
-#' dryadVersionInformation(https://doi.org/10.5061/dryad.z08kprrk1)
-#' #Use ... to pass additional arguments to dryad_version_overview().
+#' \dontrun{
+#' # Get full version metadata
+#' dryadVersionInformation("https://doi.org/10.5061/dryad.z08kprrk1")
+#'
+#' # Get only selected fields
+#' dryadVersionInformation("https://doi.org/10.5061/dryad.z08kprrk1", 
+#'                         "versionNumber", "lastModificationDate")
+#' }
+#'
+#' @importFrom httr GET content
+#' @importFrom jsonlite fromJSON
+#' @importFrom dplyr select all_of
+#' @importFrom stringr str_replace_all
 #' @export
 dryadVersionInformation <- function(doi,...){
   encoded_doi <- str_replace_all(doi, c("https://doi.org/" = "doi%253A", "/" = "%2F"))
