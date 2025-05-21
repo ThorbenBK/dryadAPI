@@ -28,7 +28,7 @@
 #' @importFrom httr GET content
 #' @importFrom jsonlite fromJSON
 #' @importFrom readr read_csv
-#' @importFrom openxlsx read.xlsx
+#' @importFrom readxl read_xlsx
 #' @importFrom stringr str_replace_all
 #' @export
 #'
@@ -67,7 +67,7 @@ dryadFileRead <- function(doi){
   download.file(download_url2, destfile = temp, mode = "wb")
   loaded_data <- switch(chosen_ext2,
                         csv = read_csv(temp),
-                        xlsx = read.xlsx(temp)
+                        xlsx = read_xlsx(temp)
   )
   return(loaded_data)
   }

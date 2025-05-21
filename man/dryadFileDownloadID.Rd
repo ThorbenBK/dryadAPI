@@ -16,7 +16,7 @@ dryadFileDownloadID(id, ext, path = "~/Downloads", name = "data")
 \item{name}{A character string specifying the name of the file. Default: "data"}
 }
 \value{
-Invisibly downloadeds a file, or \code{NULL} if no file was selected.
+Invisibly downloads a file, or \code{NULL} if no file was selected.
 }
 \description{
 \code{dryadFileDownload()} allows downloading a file of a dataset hosted on Dryad directly by using its ID.

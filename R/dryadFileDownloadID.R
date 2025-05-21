@@ -10,7 +10,7 @@
 #' @param name A character string specifying the name of the file. Default: "data"
 #'  
 #' 
-#' @return Invisibly downloadeds a file, or `NULL` if no file was selected.
+#' @return Invisibly downloads a file, or `NULL` if no file was selected.
 #' 
 #' @details 
 #' This function directly accesses the file based on its ID. 

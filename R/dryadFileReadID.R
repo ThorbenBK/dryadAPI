@@ -23,7 +23,7 @@
 #' }
 #' 
 #' @importFrom readr read_csv
-#' @importFrom openxlsx read.xlsx
+#' @importFrom readxl read_xlsx
 #' @export
 #'
 dryadFileReadID <- function(id, ext){
@@ -35,7 +35,7 @@ dryadFileReadID <- function(id, ext){
   download.file(download_url2, destfile = temp, mode = "wb")
   loaded_data <- switch(ext,
                         csv = read_csv(temp),
-                        xlsx = read.xlsx(temp),
+                        xlsx = read_xlsx(temp),
                         {
                         warning("Unsupported file type: ", ext)
                         return(NULL)
