@@ -2,7 +2,7 @@
 % Please edit documentation in R/dryadVersionInformation.R
 \name{dryadVersionInformation}
 \alias{dryadVersionInformation}
-\title{Get Information About Different Versions of a Dataset from Drya}
+\title{Get Information About Different Versions of a Dataset from Dryad}
 \usage{
 dryadVersionInformation(doi, ...)
 }
