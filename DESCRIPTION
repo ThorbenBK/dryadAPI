@@ -10,7 +10,6 @@ This package allows users to programmatically search for datasets, retrieve meta
 and import data directly into the R environment. Designed to support reproducible research and facilitate 
 access to open scientific datasets.
 License: MIT + file LICENSE
-    license
 Encoding: UTF-8
 Imports: 
     httr,
