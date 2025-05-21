@@ -13,7 +13,7 @@ Imports:
     dplyr,
     stringr
 Recommends: 
-    readxl,
+    openxlsx,
     readr
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.3.2
