@@ -1,8 +1,6 @@
 #' @title Download All Files from a Dryad Dataset Version
 #'
-#' @description
-#' `dryadVersionDownload()` downloads all files from a specific version of a Dryad dataset, given its DOI.
-#' The user selects the desired version if multiple versions are available. All files are saved to the specified directory.
+#' @description `dryadVersionDownload()` downloads all files from a specific version of a Dryad dataset, given its DOI. The user selects the desired version if multiple versions are available. All files are saved to the specified directory.
 #'
 #' @param doi A character string specifying the dataset DOI, in the form of "https://doi.org/..."
 #' @param path A character string specifying the location of the file. Default: "~/Downloads"

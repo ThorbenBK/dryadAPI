@@ -2,34 +2,36 @@
 % Please edit documentation in R/dryadFileDownloadID.R
 \name{dryadFileDownloadID}
 \alias{dryadFileDownloadID}
-\title{Download a file from dryad API into R}
+\title{Download a Specific File from Dryad based on its ID}
 \usage{
 dryadFileDownloadID(id, ext, path = "~/Downloads", name = "data")
 }
 \arguments{
-\item{id}{a character vector with one element in the form of "xxxxxx".}
+\item{id}{A character string specifying the file ID.}
 
-\item{ext}{a character vector with one element in the form of for example "md".}
+\item{ext}{A character string specifying the file extension.}
 
-\item{path}{a character vector with one element in the form of "....". Default: "~/Downloads"}
+\item{path}{A character string specifying the location of the file. Default: "~/Downloads"}
 
-\item{name}{a character vector with one element in the form of ".....". Default: "data"}
+\item{name}{A character string specifying the name of the file. Default: "data"}
 }
 \value{
-Downloaded file.
+Invisibly downloadeds a file, or \code{NULL} if no file was selected.
 }
 \description{
-dryadFileDownloadID() allows to access a specific file from dryad based on the ID of that file.
+\code{dryadFileDownload()} allows downloading a file of a dataset hosted on Dryad directly by using its ID.
+The user provides the file ID and the extension. The file will be downloaded into a prior determine folder under a prior determined name.
+}
+\details{
+This function directly accesses the file based on its ID.
+The user is prompted to download the file to their \verb{~/Downloads} folder if not specified otherwise.
 }
 \examples{
-dryadFileReadID("3833094", "xlsx")
+\dontrun{
+dryadFileDownloadID("3833094", "xlsx")
+}
+
 }
 \seealso{
-\code{\link[=dryad_version_overview]{dryad_version_overview()}}
-
-\code{\link[=dryadFileReadID]{dryadFileReadID()}}
-
-\code{\link[=dryadFileRead]{dryadFileRead()}}
-
-\code{\link[=dryadFileDownload]{dryadFileDownload()}}
+\code{\link[=dryad_version_overview]{dryad_version_overview()}}, \code{\link[=dryadFileDownload]{dryadFileDownload()}}, \code{\link[=dryadFileReadID]{dryadFileReadID()}}
 }

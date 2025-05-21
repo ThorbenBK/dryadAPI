@@ -2,27 +2,34 @@
 % Please edit documentation in R/dryadFileReadID.R
 \name{dryadFileReadID}
 \alias{dryadFileReadID}
-\title{Read a file from dryad API into R}
+\title{Read a Specific File from Dryad based on its ID}
 \usage{
 dryadFileReadID(id, ext)
 }
 \arguments{
-\item{id}{a character vector with one element in the form of "xxxxxx".}
+\item{id}{A character string specifying the file ID.}
+
+\item{ext}{A character string specifying the file extension (e.g., "csv" or "xlsx").}
 }
 \value{
-Reads in the file.
+A data frame if the selected file is a \code{.csv} or \code{.xlsx}. Otherwise returns \code{NULL}.
 }
 \description{
-dryadFileReadID() allows to access a specific file from dryad based on the id of that file.
+\code{dryadFileReadID()} allows reading a file of a dataset hosted on Dryad directly by using its ID.
+The user provides the file ID and the extension. Supported file types (currently \code{.csv} and \code{.xlsx}) are downloaded and read into R automatically.
+}
+\details{
+This function directly accesses the file based on its ID and downloads it to a temporary directory and reads into R.
 }
 \note{
-the function is currently limited to ".csv" and ".xlsx" files.
+Currently, only files with extensions \code{.csv} and \code{.xlsx} are read into R.
 }
 \examples{
-dryadFileReadID("3833094", "xslx")
+\dontrun{
+dryadFileReadID("3833094", "xlsx")
+}
+
 }
 \seealso{
-\code{\link[=dryad_version_overview]{dryad_version_overview()}}
-
-\code{\link[=dryadFileRead]{dryadFileRead()}}
+\code{\link[=dryad_version_overview]{dryad_version_overview()}}, \code{\link[=dryadFileRead]{dryadFileRead()}}, \code{\link[=dryadFileDownloadID]{dryadFileDownloadID()}}
 }

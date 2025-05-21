@@ -2,26 +2,86 @@
 % Please edit documentation in R/dryadVersionInformation.R
 \name{dryadVersionInformation}
 \alias{dryadVersionInformation}
-\title{Get information about different Versions of a dataset.}
+\title{Get Information About Different Versions of a Dataset from Drya}
 \usage{
 dryadVersionInformation(doi, ...)
 }
 \arguments{
-\item{doi}{a character vector with one element in the form of "https://...".}
+\item{doi}{A character string specifying the dataset DOI, in the form of "https://doi.org/..."}
 
-\item{...}{: title, authors(firstName, lastName, email, affiliation, affiliationROR, orcid, order, abstract),funders(organization, identifierType,identifier, awardNumber, awardDescription, order), keywords, fieldOfScience, methods, versionNumber, versionStatus, curationStatus, versionChanges, publicationDate, lastModificationDate, visibility, sharingLink, xxxxx_links.curies(name, href, templated), _links.self.href, _links.stash:dataset.href, _links.stash:files.href, _links.stash:download.href}
+\item{...}{Optional character strings specifying which fields to extract from the version metadata.}
 }
 \value{
-A nested dataframe.
+A \code{data.frame} (tibble-like) containing the version metadata, either fully or with selected columns.
 }
 \description{
-dryad_version_overview() allows to view all information about a dataset, that is saved on dryad. The function allows to create a nested data.frame.
-When selecting certain information beforehand, the download will be limited to those information.
+\code{dryadVersionInformation()} retrieves metadata for all available versions of a dataset hosted on Dryad, identified by its DOI. The function can return either the full version metadata or selected fields.
+}
+\details{
+The Dryad API returns a nested structure with metadata for all versions of a dataset.
+This function flattens and extracts that structure into a data frame.
+
+If no fields are specified via \code{...}, the full set of available metadata will be returned.
+If one or more fields are specified, only those fields will be returned (if valid).
+
+#' The possible top-level fields include:
+\itemize{
+\item \code{title}
+\item \code{keywords}
+\item \code{fieldOfScience}
+\item \code{methods}
+\item \code{versionNumber}
+\item \code{versionStatus}
+\item \code{curationStatus}
+\item \code{versionChanges}
+\item \code{publicationDate}
+\item \code{lastModificationDate}
+\item \code{visibility}
+\item \code{sharingLink}
+\item \verb{_links.self.href}
+\item \verb{_links.stash:dataset.href}
+\item \verb{_links.stash:files.href}
+\item \verb{_links.stash:download.href}
+\item \verb{_links.curies} (list column with fields: \code{name}, \code{href}, \code{templated})
+}
+
+Nested list-columns include:
+\itemize{
+\item \code{authors} (each row is a list of author entries with the following fields):
+\itemize{
+\item \code{firstName}
+\item \code{lastName}
+\item \code{email}
+\item \code{affiliation}
+\item \code{affiliationROR}
+\item \code{orcid}
+\item \code{order}
+\item \code{abstract}
+}
+\item \code{funders} (each row is a list of funder entries with the following fields):
+\itemize{
+\item \code{organization}
+\item \code{identifierType}
+\item \code{identifier}
+\item \code{awardNumber}
+\item \code{awardDescription}
+\item \code{order}
+}
+}
+
+To access nested fields (e.g., \code{authors$firstName}), further unnesting may be required using tools like \code{tidyr::unnest()}.
 }
 \examples{
-dryadVersionInformation(https://doi.org/10.5061/dryad.z08kprrk1)
-#Use ... to pass additional arguments to dryad_version_overview().
+\dontrun{
+# Get full version metadata
+dryadVersionInformation("https://doi.org/10.5061/dryad.z08kprrk1")
+
+# Get only selected fields
+dryadVersionInformation("https://doi.org/10.5061/dryad.z08kprrk1", 
+                        "versionNumber", "lastModificationDate")
+}
+
 }
 \seealso{
-\code{\link[=dryad_version_count]{dryad_version_count()}}
+\code{\link[=dryad_version_count]{dryad_version_count()}}, \code{\link[=dryad_version_overview]{dryad_version_overview()}}
 }

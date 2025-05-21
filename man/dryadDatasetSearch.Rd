@@ -2,7 +2,7 @@
 % Please edit documentation in R/dryadDatasetSearch.R
 \name{dryadDatasetSearch}
 \alias{dryadDatasetSearch}
-\title{Search dryad API for specific datasets}
+\title{Search the Dryad API for Datasets Based on Criteria}
 \usage{
 dryadDatasetSearch(
   p = NA,
@@ -18,41 +18,59 @@ dryadDatasetSearch(
 )
 }
 \arguments{
-\item{p}{an integer. Which page of results to view. Returns all pages, if not specified.}
+\item{p}{Integer. Which page of results to return. If \code{NA} (default), retrieves all pages.}
 
-\item{perp}{an integer. Number of results to return on each page. Defaults to 1000 (Maximum allowed).}
+\item{perp}{Integer. Number of results per page. Default is 100 (Dryad's maximum allowed).}
 
-\item{terms}{a vector. A list of terms to be searched. If multiple terms are supplied, matches will only be returned for items that contain all terms. A term may be negated to indicate terms that should not be present in the results (e.g., cat -fish).}
+\item{terms}{Character vector. Search terms to query Dryad datasets. If multiple terms are supplied,
+only datasets containing all terms are returned. Terms may be negated using a minus sign (e.g., \code{"cat"}, \code{"-fish"}).}
 
-\item{affiliation}{a character variable. ROR identifier specifying an institutional affiliation (https://ror.org) that must be present in the list of dataset authors. The identifier should be in the full "https" format}
+\item{affiliation}{Character. A ROR identifier (in full URL format) specifying an institutional affiliation
+that must appear among the dataset's authors. See: \url{https://ror.org}.}
 
-\item{tenant}{a character variable. The abbreviation for a "tenant" organization in Dryad. This will automatically search all affiliations associated with the given tenant. If both a tenant and affiliation are specified, the tenant will be ignored.}
+\item{modifiedSince}{Character. ISO 8601 timestamp in UTC format (e.g., \code{"2020-10-08T10:24:53.999Z"}). Filters to datasets
+modified after the given timestamp.}
 
-\item{issn}{a character variable. The journal ISS (https://portal.issn.org).}
+\item{modifiedBefore}{Character. ISO 8601 timestamp in UTC format. Filters to datasets
+modified before the given timestamp.}
 
-\item{relatedWorkIdentifier}{a character variable. The identifier that is present in a related work.}
+\item{tenant}{Character. Abbreviation for a "tenant" organization in Dryad. If both \code{tenant} and \code{affiliation} are specified,
+the \code{tenant} takes precedence.}
 
-\item{relatedWorkRelationship}{a character variable. The type of relationship expressed by a related work.}
+\item{issn}{Character. Journal ISSN (see: \url{https://portal.issn.org}) to filter by journal.}
 
-\item{modifiedSince:}{A timestamp for limiting results. Datasets will only be returned that have been modified since the given time. The time must be specified in ISO 8601 format, and the time zone must be set to UTC, e.g., 2020-10-08T10:24:53Z}
+\item{relatedWorkIdentifier}{Character. Identifier of a related work linked to the dataset.}
 
-\item{modifiedBefore:}{A timestamp for limiting results. Datasets will only be returned that have been modified before the given time. The time must be specified in ISO 8601 format, and the time zone must be set to UTC, e.g., 2020-10-08T10:24:53Z.}
+\item{relatedWorkRelationship}{Character. Type of relationship to the related work.}
 }
 \value{
-Dataframe of search results
+A data frame containing the search results. If more than one page is found, all pages are automatically retrieved
+unless \code{p} is specified.
 }
 \description{
-dryadDatasetSearch() allows to access dryad API and search for one or multiple datasets based on prior specified criteria
+\code{dryadDatasetSearch()} queries the Dryad API for datasets based on user-specified search parameters.
+It allows for flexible searching using terms, institutional affiliation, journal ISSNs,
+related works, and modification timestamps. The function can return one page or all available pages of results.
+}
+\details{
+If \code{p} is not specified (\code{NA}), the function loops through all pages of results and combines them into a single data frame.
+The total number of matched datasets is printed, and a menu is prompted to confirm loading.
+Selecting "ABORT" cancels the operation.
 }
 \examples{
-dryadDatasetSearch(terms=c("dog", "-cat"), p = 4)
+\dontrun{
+# Search for datasets containing the term "dog" but not "cat", return only page 4 (Results 301-400)
+dryadDatasetSearch(terms = c("dog", "-cat"), p = 4)
+
+# Search using affiliation and a modification filter
+dryadDatasetSearch(
+  terms = "evolution",
+  affiliation = "https://ror.org/043z8wz74",
+  modifiedSince = "2021-01-01T00:00:00Z"
+)
+}
+
 }
 \seealso{
-\code{\link[=dryad_version_overview]{dryad_version_overview()}}
-
-\code{\link[=dryadFileReadID]{dryadFileReadID()}}
-
-\code{\link[=dryadFileRead]{dryadFileRead()}}
-
-\code{\link[=dryadFileDownloadID]{dryadFileDownloadID()}}
+\code{\link[=dryad_version_overview]{dryad_version_overview()}}, \code{\link[=dryadFileRead]{dryadFileRead()}}, \code{\link[=dryadFileReadID]{dryadFileReadID()}}, \code{\link[=dryadFileDownloadID]{dryadFileDownloadID()}}, \code{\link[=dryadFileDownload]{dryadFileDownload()}}
 }

@@ -2,27 +2,37 @@
 % Please edit documentation in R/dryadFileRead.R
 \name{dryadFileRead}
 \alias{dryadFileRead}
-\title{Read a file from dryad API into R}
+\title{Read a File from a Specific Dryad Dataset Version}
 \usage{
 dryadFileRead(doi)
 }
 \arguments{
-\item{doi}{a character vector with one element in the form of "https://...".}
+\item{doi}{A character string specifying the dataset DOI, in the form of "https://doi.org/..."}
 }
 \value{
-Reads in the file or downloads it, if read-in is impossible.
+A data frame if the selected file is a \code{.csv} or \code{.xlsx}. Otherwise, the file is downloaded to the user's \verb{~/Downloads} folder. Returns \code{NULL} if no selection is made.
 }
 \description{
-dryadFileRead() allows to access a specific file from a specific version from a data set of dryad based on the doi for the datase.
+\code{dryadFileRead()} allows interactive access to files from different versions of a dataset hosted on Dryad, using the dataset's DOI.
+The user can select a version and a file from the list of available options.  Supported file types (currently \code{.csv} and \code{.xlsx}) are downloaded and read into R automatically.
+Unsupported formats can be manually downloaded via prompt.
+}
+\details{
+This function first queries the Dryad API to obtain all available versions of a dataset associated with the given DOI.
+The user is then prompted to select a version via an interactive menu. After selecting a version, all associated files are listed, and the user selects one for import.
+If the file format is supported (\code{.csv} or \code{.xlsx}), the file is automatically downloaded to a temporary directory and read into R.
+If the format is not supported, the user is prompted to download the file to their \verb{~/Downloads} folder.
+The function exits gracefully if the user cancels any step.
 }
 \note{
-the function is currently limited to ".csv" and ".xlsx" files. For every other file, there is an option do download it.
+Currently, only files with extensions \code{.csv} and \code{.xlsx} are read into R. Other file types can be downloaded manually through the provided interactive prompt.
 }
 \examples{
-dryadFileRead(https://doi.org/10.5061/dryad.z08kprrk1)
+\dontrun{
+dryadFileRead("https://doi.org/10.5061/dryad.z08kprrk1")
+}
+
 }
 \seealso{
-\code{\link[=dryad_version_overview]{dryad_version_overview()}}
-
-\code{\link[=dryadFileReadID]{dryadFileReadID()}}
+\code{\link[=dryad_version_overview]{dryad_version_overview()}}, \code{\link[=dryadFileReadID]{dryadFileReadID()}}, \code{\link[=dryadFileDownload]{dryadFileDownload()}}
 }

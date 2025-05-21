@@ -1,14 +1,12 @@
 #' @title Get Information About Different Versions of a Dataset from Drya
 #' 
-#' @description
-#' `dryadVersionInformation()` retrieves metadata for all available versions of a dataset hosted on Dryad,
-#' identified by its DOI. The function can return either the full version metadata or selected fields.
+#' @description `dryadVersionInformation()` retrieves metadata for all available versions of a dataset hosted on Dryad, identified by its DOI. The function can return either the full version metadata or selected fields.
 #'
 #' @param doi A character string specifying the dataset DOI, in the form of "https://doi.org/..."
 #' @param ... Optional character strings specifying which fields to extract from the version metadata.
 #' 
 #' @details 
-#' The Dryad API returns a nested structure with metadata for all versions of a dataset. 
+#' The Dryad API returns a nested structure with metadata for all versions of a dataset.  
 #' This function flattens and extracts that structure into a data frame.
 #' 
 #' If no fields are specified via `...`, the full set of available metadata will be returned.

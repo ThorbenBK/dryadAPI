@@ -2,30 +2,30 @@
 % Please edit documentation in R/dryadVersionDownload.R
 \name{dryadVersionDownload}
 \alias{dryadVersionDownload}
-\title{Download all files of a version from dryad API into R}
+\title{Download All Files from a Dryad Dataset Version}
 \usage{
 dryadVersionDownload(doi, path = "~/Downloads")
 }
 \arguments{
-\item{doi}{a character vector with one element in the form of "https://...".}
+\item{doi}{A character string specifying the dataset DOI, in the form of "https://doi.org/..."}
 
-\item{path}{a character vector with one element in the form of "....". Default: "~/Downloads"}
+\item{path}{A character string specifying the location of the file. Default: "~/Downloads"}
 }
 \value{
-Downloaded file.
+Invisibly downloads one or more files to the specified folder. Returns \code{NULL} if no version is selected.
 }
 \description{
-dryadVersionDownload() allows to access all files of a version from dryad based on the doi of the dataset.
+\code{dryadVersionDownload()} downloads all files from a specific version of a Dryad dataset, given its DOI. The user selects the desired version if multiple versions are available. All files are saved to the specified directory.
+}
+\details{
+This function interacts with the Dryad REST API to retrieve dataset version information and download all associated files for the selected version.
 }
 \examples{
-dryadVersionDownload(https://doi.org/10.5061/dryad.z08kprrk1)
+\dontrun{
+dryadVersionDownload("https://doi.org/10.5061/dryad.z08kprrk1")
+}
+
 }
 \seealso{
-\code{\link[=dryad_version_overview]{dryad_version_overview()}}
-
-\code{\link[=dryadFileReadID]{dryadFileReadID()}}
-
-\code{\link[=dryadFileRead]{dryadFileRead()}}
-
-\code{\link[=dryadFileDownloadID]{dryadFileDownloadID()}}
+\code{\link[=dryad_version_overview]{dryad_version_overview()}}, \code{\link[=dryadFileDownloadID]{dryadFileDownloadID()}}, \code{\link[=dryadFileDownload]{dryadFileDownload()}}
 }
