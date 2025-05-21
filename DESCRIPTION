@@ -4,8 +4,7 @@ Version: 0.0.0.9000
 Authors@R: 
     person("Thorben", "Kurzbach", , "tkurzbac@uthsc.edu", role = c("aut", "cre"),
            comment = c(ORCID = "0009-0003-0264-9604"))
-Description: 
-Provides convenient R functions to interact with the Dryad data repository (https://datadryad.org). This package allows users to programmatically search for datasets, retrieve metadata, download files, and import data directly into the R environment. Designed to support reproducible research and facilitate access to open scientific datasets.
+Description: Provides convenient R functions to interact with the Dryad data repository (https://datadryad.org). This package allows users to programmatically search for datasets, retrieve metadata, download files, and import data directly into the R environment. Designed to support reproducible research and facilitate access to open scientific datasets.
 License: MIT + file LICENSE
 Encoding: UTF-8
 Imports: 
