@@ -62,12 +62,18 @@ dryadFileRead <- function(doi){
   chosen_file2 <- file_names[choice]
   chosen_ext2 <- file_ext[choice]
   if (chosen_ext2 %in% c("csv", "xlsx")){
+    if (chosen_ext2 == "xlsx" && !requireNamespace("readxl", quietly = TRUE)) {
+      stop("Package 'readxl' is required to read xlsx files. Please install it via install.packages('readxl').")
+    }
+    if (chosen_ext2 == "csv" && !requireNamespace("readr", quietly = TRUE)) {
+      stop("Package 'readr' is required to read csv files. Please install it via install.packages('readr').")
+    }
   download_url2 <- paste0("https://datadryad.org/api/v2/files/", chosen_id2, "/download")
   temp <- tempfile(fileext=paste0(".", chosen_ext2))
   download.file(download_url2, destfile = temp, mode = "wb")
   loaded_data <- switch(chosen_ext2,
-                        csv = read_csv(temp),
-                        xlsx = read_xlsx(temp)
+                        csv = readr::read_csv(temp),
+                        xlsx = readxl::read_xlsx(temp)
   )
   return(loaded_data)
   }

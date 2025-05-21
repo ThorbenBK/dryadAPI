@@ -30,12 +30,18 @@ dryadFileReadID <- function(id, ext){
   if(missing(id) || missing(ext) || id == "" || ext == "") {
     stop("Both 'id' and 'ext' must be provided and non-empty.")
   }
+  if (ext == "xlsx" && !requireNamespace("readxl", quietly = TRUE)) {
+    stop("Package 'readxl' is required to read xlsx files. Please install it via install.packages('readxl').")
+  }
+  if (ext == "csv" && !requireNamespace("readr", quietly = TRUE)) {
+    stop("Package 'readr' is required to read csv files. Please install it via install.packages('readr').")
+  }
   download_url2 <- paste0("https://datadryad.org/api/v2/files/",id, "/download")
   temp <- tempfile(fileext=paste0(".", ext))
   download.file(download_url2, destfile = temp, mode = "wb")
   loaded_data <- switch(ext,
-                        csv = read_csv(temp),
-                        xlsx = read_xlsx(temp),
+                        csv = readr::read_csv(temp),
+                        xlsx = readxl::read_xlsx(temp),
                         {
                         warning("Unsupported file type: ", ext)
                         return(NULL)
