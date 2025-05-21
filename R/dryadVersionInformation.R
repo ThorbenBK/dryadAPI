@@ -1,4 +1,4 @@
-#' @title Get Information About Different Versions of a Dataset from Drya
+#' @title Get Information About Different Versions of a Dataset from Dryad
 #' 
 #' @description `dryadVersionInformation()` retrieves metadata for all available versions of a dataset hosted on Dryad, identified by its DOI. The function can return either the full version metadata or selected fields.
 #'
