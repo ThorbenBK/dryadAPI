@@ -4,14 +4,14 @@
 \alias{dryadFileDownload}
 \title{Interactively Download a File from a Specific Dryad Dataset Version}
 \usage{
-dryadFileDownload(doi, path = "~/Downloads", name = "data")
+dryadFileDownload(doi, path = "~/Downloads", name = NA)
 }
 \arguments{
 \item{doi}{A character string specifying the dataset DOI, in the form of "https://doi.org/..."}
 
 \item{path}{A character string specifying the location of the file. Default: "~/Downloads"}
 
-\item{name}{A character string specifying the name of the file. Default: "data"}
+\item{name}{A character string specifying the name of the file. Default: NA (name of the file on DRYAD)}
 }
 \value{
 Invisibly downloadeds a file, or \code{NULL} if no file was selected.
