@@ -60,3 +60,5 @@ dryadFileDownload <- function(doi, path="~/Downloads", name="data"){
   download_url2 <- paste0("https://datadryad.org/api/v2/files/",chosen_id2, "/download")
   download.file(url=download_url2, destfile = paste0(path, "/", name, ".", chosen_ext2), mode = "wb" )
 }
+
+dryadFileDownload("https://doi.org/10.5061/dryad.z08kprrk1", name = "abc")

@@ -51,7 +51,7 @@ dryadFileRead <- function(doi){
   data2 <- fromJSON(text2, flatten=TRUE)
   file_names = data2[["_embedded"]][["stash:files"]][["path"]]
   file_ids = sub(".*/", "",data2[["_embedded"]][["stash:files"]][["_links.self.href"]])
-  file_ext = sub(".*/", "",data2[["_embedded"]][["stash:files"]][["mimeType"]])
+  file_ext = sub(".*\\.", "", data2[["_embedded"]][["stash:files"]][["path"]])
   cat("Available files in dataset:\n")
   choice <- menu(file_names, title = "Choose a file to read-in")
   if (choice == 0) {
@@ -72,7 +72,7 @@ dryadFileRead <- function(doi){
   temp <- tempfile(fileext=paste0(".", chosen_ext2))
   download.file(download_url2, destfile = temp, mode = "wb")
   loaded_data <- switch(chosen_ext2,
-                        csv = readr::read_csv(temp),
+                        csv = as.data.frame(readr::read_csv(temp)),
                         xlsx = readxl::read_xlsx(temp)
   )
   return(loaded_data)
@@ -85,6 +85,5 @@ dryadFileRead <- function(doi){
   }
   download_url3 <- paste0("https://datadryad.org/api/v2/files/", chosen_id2, "/download")
   download.file(download_url3, destfile = paste0("~/Downloads/",chosen_file2), mode = "wb")
- }
-
+}
 

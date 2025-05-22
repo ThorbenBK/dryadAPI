@@ -40,7 +40,7 @@ dryadFileReadID <- function(id, ext){
   temp <- tempfile(fileext=paste0(".", ext))
   download.file(download_url2, destfile = temp, mode = "wb")
   loaded_data <- switch(ext,
-                        csv = readr::read_csv(temp),
+                        csv = as.data.frame(readr::read_csv(temp)),
                         xlsx = readxl::read_xlsx(temp),
                         {
                         warning("Unsupported file type: ", ext)
