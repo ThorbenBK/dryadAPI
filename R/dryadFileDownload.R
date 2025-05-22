@@ -6,7 +6,7 @@
 #'
 #' @param doi A character string specifying the dataset DOI, in the form of "https://doi.org/..."
 #' @param path A character string specifying the location of the file. Default: "~/Downloads"
-#' @param name A character string specifying the name of the file. Default: "data"
+#' @param name A character string specifying the name of the file. Default: NA (name of the file on DRYAD)
 #' 
 #' @return Invisibly downloadeds a file, or `NULL` if no file was selected.
 #'
@@ -28,7 +28,7 @@
 #' @importFrom stringr str_replace_all
 #' @export
 
-dryadFileDownload <- function(doi, path="~/Downloads", name="data"){
+dryadFileDownload <- function(doi, path="~/Downloads", name=NA){
   encoded_doi <- str_replace_all(doi, c("https://doi.org/" = "doi%253A", "/" = "%2F"))
   response <- GET(paste("https://datadryad.org/api/v2/datasets/",encoded_doi,"/versions?page=1&per_page=100", sep=""))
   text <- content(response, as = "text", encoding = "UTF-8")
@@ -58,7 +58,6 @@ dryadFileDownload <- function(doi, path="~/Downloads", name="data"){
   chosen_file2 <- file_names[choice]
   chosen_ext2 <- file_ext[choice]
   download_url2 <- paste0("https://datadryad.org/api/v2/files/",chosen_id2, "/download")
-  download.file(url=download_url2, destfile = paste0(path, "/", name, ".", chosen_ext2), mode = "wb" )
+  name <- if (is.na(name)) chosen_file2 else name
+  download.file(url=download_url2, destfile = paste0(path, "/", name), mode = "wb" )
 }
-
-dryadFileDownload("https://doi.org/10.5061/dryad.z08kprrk1", name = "abc")
